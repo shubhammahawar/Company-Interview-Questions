@@ -1,0 +1,57 @@
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        
+        int n = nums.length;
+        int[] LIS= new int[n];
+
+        //LIS[i] - It means Length of a Longest Increasing Subsequence upto index i
+       
+
+        for(int i=0;i<n;i++)  // Every element is itself a Subsequence
+        LIS[i]=1;
+
+        int maxeLIS=1;  // 1 will always be a LIS
+        int lastIndex=0;
+
+        int[] hashLIS = new int[n]; // this we are storing the index for printing the LIS
+
+        for(int i=0;i<n;i++){
+            hashLIS[i]=i;
+            for(int prev=0;prev<i;prev++){  // inner loop comparing with outerloop
+
+                if(nums[prev]<nums[i] && 1+LIS[prev]>LIS[i]){ // if previous is less than it means we have a increasing subsequence
+                    LIS[i]=1+LIS[prev];
+                    hashLIS[i]=prev;
+                }
+            }
+            if(LIS[i]>maxeLIS){  // now finding in all n places which one has highest LIS upto index i
+                maxeLIS = LIS[i];
+                lastIndex = i;
+            }
+          
+        }
+
+// the below code is just to print the Longest Increasing Subsequence
+
+         int[] printLIS = new int[maxeLIS];
+         int ind=0;
+         printLIS[ind++]=nums[lastIndex];
+
+         while(hashLIS[lastIndex]!=lastIndex){ // run the loop until index and its value is matched because we have assigned initially hashLIS[i]=i
+             lastIndex= hashLIS[lastIndex];
+             printLIS[ind++]=nums[lastIndex];
+         }
+         
+
+         for(int i=ind-1;i>=0;i--){
+             System.out.println(printLIS[i]);
+         }
+
+  
+
+
+return maxeLIS;
+
+
+    }
+}
