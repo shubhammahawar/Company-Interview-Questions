@@ -1,0 +1,54 @@
+/*package whatever //do not write package name here */
+
+import java.io.*;
+
+class GFG {
+
+// T.C = O(N*LOGN)
+    
+    int binarySearchToInsertNumber(int[]arr, List<Integer>ans,int num){
+        
+        int low =0;
+        int high = ans.length-1;
+        int pos = -1;
+                                  // using binary search to get the position, find the position which has a first greater element than num
+        while(low<=high){
+            md = (low+high)/2;
+            
+            if(ans[md]>num || ans[md]==num)
+            return md;
+            
+            else{
+                low = md+1;
+            }
+        }
+        return pos;
+    }
+    
+    void sortStream(int []arr, List<Integer>ans){
+        
+        
+        for(int i=0;i<arr.length;i++){  // run loop for every element in an array
+            
+            int pos = binarySearchToInsertNumber(arr, ans, arr.get(i));  // use binary search in ans to get the desired position where the new element to be inserted to get the sorted array
+            
+            if(pos==-1)
+            ans.add(num);
+            
+            else{
+                ans.add(pos,num);
+            }
+        }
+    }
+    
+	public static void main (String[] args) {
+		System.out.println("GfG!");
+		
+		int arr[]= {4,1,7,6,2};
+		
+		List<Integer> ans = new ArrayList<>(); 
+		
+		sortStream(arr,ans); //sort a stream arr when one by one element is coming 
+		
+	}
+}
