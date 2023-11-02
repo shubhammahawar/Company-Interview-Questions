@@ -1,3 +1,5 @@
+Question Link : https://www.geeksforgeeks.org/select-a-random-number-from-stream-with-o1-space/
+
 #include <stdio.h>
 
 int main() {
