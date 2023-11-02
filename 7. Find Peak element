@@ -1,0 +1,40 @@
+Question Link : https://leetcode.com/problems/find-peak-element/description/
+
+T.C = O(logn)
+S.C = O(1)
+
+class Solution {
+
+
+    public int findPeakElement(int[] nums) {
+
+        int n = nums.length;
+
+        if(n==1)  // If there is only one element that is peak itself
+        return 0;
+
+        if(nums[0]>nums[1]) // If first element is greater than second then first index is peak
+        return 0;
+
+        if(nums[n-1]>nums[n-2]) // Similarly if last index element is greater than second last element then last index is peak
+        return n-1;
+
+        int low =1;  // leaving 1st and last element as its condition already checked in base cases
+        int high = n-2;  
+
+        while(low<=high){  // Using binary search because it is somehow linearly increasing and decreasing
+
+            int md = (low+high)/2;
+
+            if(nums[md]>nums[md-1] && nums[md]>nums[md+1]) // peak condition
+            return md;
+
+            else if (nums[md]>nums[md-1]) // it means peak is lying at right of md
+            low = md+1;
+
+            else  // otherwise peak is lying at left of md
+            high=md-1;
+        }
+        return -1;
+    }
+}
