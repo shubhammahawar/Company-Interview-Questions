@@ -1,0 +1,93 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    
+    public static Map<String,List<String>>getBadgedIntoRoomThriceAtleast(String[][]records){
+        
+        Arrays.sort(records, (a,b)->(Integer.parseInt(a[1]))-(Integer.parseInt(b[1])));
+        
+        Map<String, List<String>>mp = new HashMap<>();
+        
+        for(String[] singleRecord: records){
+            String employee = singleRecord[0];
+            String time = singleRecord[1];
+            
+            mp.computeIfAbsent(employee,k->new ArrayList<>()).add(time);
+            
+        }
+        
+       Map<String, List<String>>result = new HashMap<>();
+        
+        for(Map.Entry<String, List<String>>accessList: mp.entrySet()){
+            List<String>employeeTiming=accessList.getValue();
+            int len = employeeTiming.size();
+            
+            if(len>=3){
+                for(int i=2;i<len;i++){
+                    if(Integer.parseInt(employeeTiming.get(i))-Integer.parseInt(employeeTiming.get(i-2))<=100){
+                       int start = i-2; 
+                       int max = Integer.parseInt(employeeTiming.get(start))+100;
+                      //  int j =i+1;
+                       
+                        while(i+1<len && Integer.parseInt(employeeTiming.get(i+1))<=max ){
+                            i++;
+                        }
+                        result.put(accessList.getKey(),employeeTiming.subList(start,i+1));
+                        break;
+                        
+                        
+                    }
+                }
+            }
+        }
+        
+      return result;  
+    }
+    
+    
+    public static void main(String[] args) {
+      //  System.out.println("Hello World!");
+        
+        String [][] badgeRecords = {
+                {"Paul", "1355"},
+                {"Jennifer", "1910"},
+                {"Jose", "835"},
+                {"Jose", "830"},
+                {"Paul", "1315"},
+                {"Chloe", "0"},
+                {"Chloe", "1910"},
+                {"Jose", "1615"},
+                {"Jose", "1640"},
+                {"Paul", "1405"},
+                {"Jose", "855"},
+                {"Jose", "930"},
+                {"Jose", "915"},
+                {"Jose", "730"},
+                {"Jose", "940"},
+                {"Jennifer", "1335"},
+                {"Jennifer", "730"},
+                {"Jose", "1630"},
+                {"Jennifer", "5"},
+                {"Chloe", "1909"},
+                {"Zhang", "1"},
+                {"Zhang", "10"},
+                {"Zhang", "109"},
+                {"Zhang", "110"},
+                {"Amos", "1"},
+                {"Amos", "2"},
+                {"Amos", "400"},
+                {"Amos", "500"},
+                {"Amos", "503"},
+                {"Amos", "504"},
+                {"Amos", "601"},
+                {"Amos", "602"},
+                {"Paul", "1416"}
+        };
+        
+        
+        Map<String, List<String>>result = getBadgedIntoRoomThriceAtleast(badgeRecords);
+        
+        for(Map.Entry<String,List<String>> output : result.entrySet()){
+            System.out.println(output.getKey()+" : "+output.getValue());
+        }    
+    }
+}
