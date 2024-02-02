@@ -1,0 +1,52 @@
+Substitution Cipher - In a Substitution cipher, any character of plain text from the given fixed set of characters
+is substituted by some other character from the same set depending on a key. For example with a shift of 1,
+A would be replaced by B, B would become C, and so on. 
+
+Question Link - https://www.geeksforgeeks.org/substitution-cipher/
+
+Input - 
+Plain text is
+Chase Your Dream Dream Always come True
+key = 6
+
+Encypted text is 
+Ingyk Euax Jxkgs Jxkgs Grcgey iusk Zxak
+
+
+
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) {
+        String plainText = "Chase Your Dream Dream Always come True";
+        int key =6;
+        
+        String smallLetters = "abcdefghijklmnopqrstuvwxyz";
+        String capLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuilder encyrptedResult = new StringBuilder();
+        
+        Map<Character, Character>mp = new HashMap<>();
+        for(int i=0;i<smallLetters.length();i++){
+            mp.put(smallLetters.charAt(i), smallLetters.charAt( (i+key)%smallLetters.length()));
+        }
+        
+        for(int i=0;i<capLetters.length();i++){
+            mp.put(capLetters.charAt(i), capLetters.charAt( (i+key)%capLetters.length()));
+        }
+        
+        
+        
+        for(char c : plainText.toCharArray()){
+            if(smallLetters.indexOf(c)!=-1 || capLetters.indexOf(c)!=-1)
+                encyrptedResult.append(mp.get(c));
+            
+            else
+                encyrptedResult.append(c);
+        }
+        
+         System.out.println("Plain text is "+ plainText);
+        System.out.println("Encypted text is "+ encyrptedResult);
+        
+        
+        
+    }
+}
