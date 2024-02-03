@@ -1,0 +1,92 @@
+Given a startPoint and endPoint on number line[1,2,3,...10] ﻿and list of hurdles [1,4] you can jump two steps forward 
+and one step backward [2 to 4 or 2 to 1] and you cannot jump if there is hurdle,
+You can't go beyond start and end points on the number line.
+Count the number of ways you can reach the endPoint. (you always start from startPoint).
+
+1.  ﻿startPoint and endPoint are not hurdle
+2. ﻿If endPoint is not reachable return 
+3. 1<=number of line<=1000
+
+Example -
+
+1.
+Input 
+ startPoint = 1;
+ endPoint = 10;
+ List<Integer> hurdles = Arrays.asList();
+
+Output - No of ways we can jump from start to endPoint is : 4
+
+2.
+Input 
+ startPoint = 1;
+ endPoint = 10;
+ List<Integer> hurdles = Arrays.asList(2,4);
+
+Output - No of ways we can jump from start to endPoint is : 2
+
+
+3.
+Input 
+ startPoint = 1;
+ endPoint = 10;
+ List<Integer> hurdles = Arrays.asList(2,4,6);
+
+Output - No of ways we can jump from start to endPoint is : 1
+
+4.
+Input 
+ startPoint = 2;
+ endPoint = 9;
+ List<Integer> hurdles = Arrays.asList();
+
+Output - No of ways we can jump from start to endPoint is : 3
+
+----------------------------------------------------------CODE------------------------------------------------------------------
+
+
+// "static void main" must be defined in a public class.
+public class Main {
+    
+    public static int countWaysToReachEndPoint(int startPoint, int endPoint, List<Integer>hurdles){
+        
+        int maxeValue =0;
+        for(int value :hurdles){
+            maxeValue = Math.max(maxeValue,value);
+        }
+        maxeValue = Math.max(endPoint, maxeValue);
+        
+        int ways[] = new int[maxeValue+1];
+        boolean visited[] = new boolean[maxeValue+1];
+      
+        ways[startPoint]=1;
+        
+        for(int j=0;j<2;j++){
+            
+        for(int i=startPoint;i<=endPoint;i++){
+            if(ways[i]>0 && visited[i]==false){
+                System.out.println("visited "+ i + visited[i]);
+             //  int nextHop[] = new int[]{2,-1};
+               for(int next : new int[]{2, -1}){
+                   int jump = i+next;
+                   if(jump>=1 && jump<=maxeValue && !hurdles.contains(jump))
+                       ways[jump]+=ways[i];  
+                       visited[i]=true;
+               }
+               
+            }
+        }
+        }
+        return ways[endPoint]>0?ways[endPoint]:-1;
+    }
+    
+    public static void main(String[] args) {
+       int startPoint = 1;
+       int endPoint = 10;
+        
+        List<Integer> hurdles = Arrays.asList(2,4,6);
+        int result=countWaysToReachEndPoint(startPoint, endPoint,hurdles);
+        
+        System.out.println("No of ways we can jump from start to endPoint is : "+result);
+    }
+}
