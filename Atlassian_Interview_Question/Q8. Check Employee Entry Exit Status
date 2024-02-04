@@ -1,0 +1,70 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    
+    public static Map<String,Set<String>> checkEmployeeEntryExitStatus(String records[][]){
+           
+        Set<String> room = new HashSet<>();
+        Set<String> exitWithoutEntry = new HashSet<>();
+        Set<String> entryWithoutExit = new HashSet<>();
+        
+        Map<String,Set<String>> result = new HashMap<>();
+        
+        for(String record[] : records){
+            String employeeName = record[0];
+            String status = record[1];
+            
+            if(status.equalsIgnoreCase("exit")){
+                 if(!room.remove(employeeName)){
+                     exitWithoutEntry.add(employeeName);
+                 }   
+            }
+            
+         
+               else if(!room.add(employeeName)){
+                    entryWithoutExit.add(employeeName);
+                }
+        }
+        entryWithoutExit.addAll(room);
+        result.put("enter", entryWithoutExit);
+        result.put("exit", exitWithoutEntry);
+        return result;
+        
+        
+    }
+    
+    
+    public static void main(String[] args) {
+        
+        String records[][] = {
+            {"Paul", "enter"},
+            {"Pauline", "exit"},
+            {"Paul", "enter"},
+            {"Paul", "exit"},
+            {"Martha", "exit"},
+            {"Joe", "enter"},
+            {"Martha", "enter"},
+            {"Steve", "enter"},
+            {"Martha", "exit"},
+            {"Jennifer", "enter"},
+            {"Joe", "enter"},
+            {"Curtis", "exit"},
+            {"Curtis", "enter"},
+            {"Joe", "exit"},
+            {"Martha", "enter"},
+            {"Martha", "exit"},
+            {"Jennifer", "exit"},
+            {"Joe", "enter"},
+            {"Joe", "enter"},
+            {"Martha", "exit"},
+            {"Joe", "exit"},
+            {"Joe", "exit"}
+        };
+        
+        Map<String, Set<String>>result = checkEmployeeEntryExitStatus(records);
+         System.out.println("Entry without Exit: " + result.get("enter"));
+        System.out.println("Exit without Entry: " + result.get("exit"));
+        
+        
+        
+    }
+}
