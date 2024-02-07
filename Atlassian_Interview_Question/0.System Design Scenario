@@ -1,0 +1,274 @@
+-------Atlassian Karat Prepration ----------------
+
+1. We are developing an indie music streaming service, where bands can upload songs and users can stream them.
+Our central load balancing server distributes the songs onto a series of physical servers using consistent hashing, so every server has the same number of songs.
+Do you have any concerns about this system?
+
+
+Scalability issue -  The central server responsible for distributing traffic could become overloaded. As the number of bands and songs grows, you might need to scale your infrastructure. The Load balancing srver might be overloaded and cause a single point of failure. Ensure that your load balancing and consistent hashing approach can scale effectively.
+
+Node failure - Yes, the main drawback is the snowball (or cascading) effect caused by a single node failing under stress which overloads its neighbor node with the transfer of keys from the died node and it may eventually fail due to the increased load and then the load transferred to its neighbor node and so on. Ultimately causing all the nodes to fail.
+
+Redundency - Ensure that you have a robust backup and redundancy strategy to handle server failures. Losing a server should not result in the loss of data or service disruption.
+
+Delays due to complex algorithms
+
+Caching :
+
+Implement caching mechanisms strategically to improve performance. Consider caching frequently accessed songs or metadata to reduce the load on backend servers.
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+2. We’ve developed a crossword puzzle mobile app. The app can give hints which include a synonym for the answer, a picture, or a short video clip.
+We are debating two options for how to implement these hints:
+Access hints from the server.
+Preloaded hints into the app.
+What are some advantages and disadvantages of each option?
+
+1. Access Hints from the Server:
+
+Advantages:
+
+Dynamic Updates: You can update and add new hints without requiring users to update the app. This flexibility allows for real-time adjustments and improvements.
+
+Reduced App Size: Since hints are fetched from the server, the initial app size is smaller, and you can manage the content remotely.
+
+Disadvantages:
+
+Dependency on Network: Users need a reliable internet connection to access hints. Lack of connectivity could result in a suboptimal user experience.
+
+Latency: Network delays may introduce latency when fetching hints, potentially leading to slower hint retrieval times.
+
+Server Load: If the app becomes popular, a large number of users simultaneously requesting hints could strain server resources.
+
+Cost : Expensive (bandwidth/server cost)
+
+
+2. Preloaded Hints into the App:
+
+Advantages:
+
+Offline Access: Users can access hints even without an internet connection, providing a seamless experience in areas with poor connectivity.
+
+Faster Access: Hints are readily available in the app, reducing the latency associated with fetching data from a server.
+
+Reduced Server Load: Preloading hints onto the app can lessen the demand on your server, particularly during peak usage times.
+
+Cost : Cheaper on the app side.
+
+Disadvantages:
+
+App Updates for New Content: If you want to add or update hints, users need to download app updates. This can result in a less dynamic user experience.
+
+Increased Initial App Size: Preloading hints may increase the initial download size of the app, which can be a concern for users with limited storage space on their devices.
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+3. We are building a business analytics application that analyzes large XML files.
+Due to the sensitive nature of the data, we want to keep all processing on our local machine. However, the files are sometimes larger than the available RAM on our computer.
+What are some techniques which we could use to process this data?
+
+
+a. Chunking:
+
+Divide the XML file into manageable chunks and process them individually. This way, you can work with smaller portions of the data at a time, minimizing memory usage. Ensure that your processing logic is designed to handle overlapping data between chunks.
+
+b. Streaming Parsing:
+
+Use streaming XML parsers that read the file sequentially without loading the entire document into memory. Libraries like SAX (Simple API for XML) or StAX (Streaming API for XML) are suitable for this purpose.
+
+c. Database Storage:
+
+Store the XML data in a local database system. You can use a database that supports XML data types or convert the XML into a more structured format suitable for your database. This approach allows you to query and analyze the data using SQL.
+
+d. Indexing:
+
+Create indexes for the XML file to speed up retrieval of specific sections or nodes. This can improve the efficiency of random access to the data without having to load the entire file into memory.
+
+e. Compressed File Handling:
+
+If the XML files are compressible, consider compressing them and processing the compressed files directly. Decompress and process sections of the file as needed, reducing the amount of data that needs to be loaded into memory simultaneously.
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+4. We run a sports news classification service, where users can provide a link to a sports article and our service downloads the article, uses machine learning to detect and report any bias towards a specific team.
+We want to plan our budget for the next six months. What information do we need to estimate the resources needed?
+
+
+a. Expected Workload:
+Estimate the number of articles your service is expected to process per day or per week.
+
+b. Data Storage:
+Determine the amount of storage space needed for storing articles, machine learning models, and any other relevant data
+
+c. Server Infrastructure:
+Estimate the number and specifications of servers needed to handle the incoming workload. Consider factors such as processing power, memory, and network bandwidth.
+
+d. Bandwidth Usage:
+Estimate the bandwidth requirements for downloading articles from provided links and any other data transfers involved in your service
+
+e.Scalability and Redundancy:
+Plan for scalability by considering potential increases in user traffic. Ensure your infrastructure can handle spikes in demand, and implement redundancy to enhance reliability.
+
+f.Average time to process an article
+
+g.Average cost of processing per article
+
+h.Types of resources used (CPU/RAM/GPU/Disk/Bandwidth)
+
+i.How resource usage scales with increased traffic
+
+j.Average number of links per user
+
+i. No of users
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+5. We run a social networking mobile app for university students. The app has been really successful in the United States so we’ve decided to release it worldwide.
+The translations and front-end have been updated. What updates would you make to the backend to ensure a smooth international release?
+
+
+a. Localization and Internationalization:
+
+Ensure that your backend is ready to support multiple languages and regions. This involves adapting date and time formats, number formats, and other locale-specific elements based on the user's location.
+
+b. Global Server Deployment
+Deploy servers in different geographical locations to reduce latency for users in various regions. 
+Use a CDN to optimize content delivery by caching and distributing static assets (images, videos) closer to users around the world.
+
+c. Multiregional Scaling:
+Ensure that your backend infrastructure can scale horizontally to handle increased traffic from different regions. Implement load balancing and autoscaling to adapt to varying user loads.
+
+d. Currency and Payment Integration:
+If your app involves transactions, ensure that it supports multiple currencies and integrates with payment gateways that are widely used internationally.
+
+e. Legal Compliance:
+Review and update your backend to comply with international laws regarding user data, intellectual property, and any other legal considerations that may vary from country to country.
+
+f. Notification Timing and Preferences:
+Allow users to set notification preferences based on their timezone and cultural norms. Avoid sending notifications during inappropriate hours in different regions.
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+6. There are 100000 vending machines all around the world which need to update a database about maintaince activities like restocking or any technical failure. The update happens at midnight for all the machines. A batch system runs after the update and creates work orders for the maintaince task. Do you see a problem in this design?
+
+
+a. Global Time Zones:
+Midnight is not a universal time; it varies across different time zones. Coordinating the update at midnight for each machine could result in skewed timing or inconvenience for certain regions.
+
+b. Network Latency:
+Depending on the geographical distribution of the vending machines, network latency can impact the speed at which updates are transmitted to the centralized database. This could lead to delays in processing maintenance information.
+
+c. Server Load at Midnight:
+Simultaneously updating a large number of vending machines worldwide at midnight could lead to a spike in server load. It's essential to ensure that the infrastructure can handle the increased traffic during this time without performance degradation.
+
+d. Data Integrity and Consistency:
+Ensuring data integrity and consistency during simultaneous updates from thousands of machines worldwide is crucial. Implementing mechanisms like distributed transactions or conflict resolution strategies may be necessary.
+
+e. Scalability:
+Ensure that the system is designed to scale as the number of vending machines or the volume of data increases. The architecture should be able to accommodate future growth without compromising performance.
+
+f. Distributed System Challenges:
+Dealing with a large number of distributed systems introduces complexities such as potential network partitions, data synchronization challenges, and the need for eventual consistency.
+
+g. Rollback Mechanism:
+In case of errors or issues during the update process, having a rollback mechanism is essential to revert the database to a stable state. This helps prevent inconsistencies in maintenance records.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+7. There is a photo sharing application where users can upload a photo and share it using a link. There are 26 servers to store these photos. The server where a photo is stored is decided by the starting character of the user's name. For example: if the user's name is 'Sundar' the photo will go to the 19th server.
+1A, 2B, 3C, 4D, 5E, 6F, 7G, 8H, 9I, 10J, 11K, 12L, 13M, 14N, 15O, 16P, 17Q, 18R, 19S, 20T, 21U, 22V, 23W, 24X, 25Y, 26Z
+Do you see any problem with this design?
+Follow up question: What parameters will you consider to calculate the cost of the database?
+
+
+a. Imbalanced Load:
+This approach could lead to an imbalanced distribution of load across servers. Users with names starting with certain letters may contribute more to the load on specific servers, while others may remain underutilized.
+
+b. Scalability Challenges:
+As the number of users and photos grows, certain servers may become hotspots if there is a disproportionate number of users with names starting with specific letters. This could lead to performance issues and difficulties in scaling the system.
+
+c. Name Distribution:
+The distribution of user names might not be uniform. Some letters, especially those at the beginning of the alphabet, may have more users than others, impacting the distribution of photos across servers.
+
+d. Limited Fault Tolerance:
+If a server goes down or experiences issues, all photos corresponding to names starting with a specific letter would be affected. This lack of fault tolerance could result in service disruptions for a subset of users.
+
+-------------------------------------------------
+
+To calculate the cost of the database
+
+
+a. Storage Costs:
+Evaluate the cost of storing photos on each server. Consider the size of the photos, storage requirements, and the scalability of your storage solution.
+
+b. Data Transfer Costs:
+Calculate the costs associated with data transfer between servers, especially if photos need to be replicated or shared among servers for redundancy or load balancing purposes.
+
+c. Server Hardware and Maintenance:
+Account for the costs of the physical servers or cloud instances, including hardware, maintenance, and any associated licensing fees.
+
+d. Network Bandwidth Costs:
+Assess the costs related to data transfer over the network, especially if your application experiences high traffic or involves the exchange of large amounts of data between servers.
+
+e. Backup and Redundancy Costs:
+Consider the costs associated with implementing backup and redundancy solutions to ensure data durability and availability in case of server failures.
+
+f. Scalability Costs:
+Evaluate the costs associated with scaling your infrastructure to accommodate growing user bases and increasing data storage requirements.
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+8. We are working on a photo storage application. Your task is to come up with estimates for storage for the next year. Which information would you consider for coming up with estimate.
+
+
+a. Current Data Size:
+Determine the current size of your photo storage. This includes both user-uploaded content and any system-related data.
+
+b. User Base Growth:
+Project the expected growth in your user base over the next year. Consider historical growth patterns, marketing strategies, and potential user acquisition efforts.
+
+c. User Engagement Patterns:
+Analyze user engagement patterns to estimate how frequently users upload new photos, how often they access existing photos, and whether there are peak usage times.
+
+d. Average Photo Size:
+Calculate the average size of photos uploaded by users. This information is crucial for estimating the amount of storage each user contributes.
+
+e. Retention Policies:
+Define and analyze your data retention policies. Determine whether you have policies for storing deleted photos, and factor in any archival or backup storage requirements.
+
+f. Compression and Optimization:
+Consider any compression or optimization techniques applied to reduce the size of stored photos. Evaluate the impact of these techniques on storage requirements.
+
+g. Metadata Storage:
+Account for metadata associated with each photo, such as timestamps, user information, geolocation data, and any additional information stored alongside the photos.
+
+h. Redundancy and Backup:
+Estimate the storage needed for redundancy, backups, and disaster recovery. This includes duplicate copies of data for fault tolerance and backup strategies.
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
