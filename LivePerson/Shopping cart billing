@@ -1,0 +1,120 @@
+ An e-commerce company is currently celebrating ten years in business.
+They are having a sale to honor their privileged members, those who have been using their services for the past five years. They receive the best discounts indicated by any discount tags attached to the product.
+Determine the minimum cost to purchase all products listed. As each potential price is calculated, truncate it to its integer part before adding it to the total. Return the cost to purchase all items as an integer.
+There are three types of discount tags:
+31
+17
+Type o: discounted price the Item is sold for a given price.
+Type 1: percentage discount, the customer is given a fixed percentage discount from the retail price.
+•Type 2: fixed discount, the customer is given a fied amount off from the retail price.
+
+products = 1C10, dO; WE), (IS: EMPTY, EMPTYI, (20; 41; 'EMPTYS
+discounts + (160:1,271.107, 2: 571
+
+The products array elements are in the form (price tag 1; tag 2, in, tag m-1'3. There may be zero or more discount codes associated with a product. Discount tags in the products array may be 'EMPTY which Is the same as a null value. The discounts array elements are in the form (tag
+"ope: amount?]
+
+ 1. If a prileged member buys product 1 listed at a price of 10 with two discounts available;
+1. Under discount 60 of type t the discounted price is 10 - 10 - 0.27 =
+7.30, round to 7.
+• Under discount d1 of type 2, the discounted price is 10 - 5 = 5.
+& The price to purchase the product 1 is the lower of the two, or S in this
+case
+2. The second product is priced at 15 because there are no discaunts available
+3. The third product is priced at 20. Using discount tag d7 of type 2, the
+discounted price ls 20 - 5 = 15
+31
+32
+a4
+35
+The total price to purchase the three items is 5 ¢ 15 ÷ 15 - 35
+Notes Not all terns will have the maximum numblof tags Empty tags may not exist in Input, or they may be filled with the string EMPTY These are equivalent as demonstrated in the example
+
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+
+class GFG {
+    
+    static int calculateLowestProduct(String[][]products, String[][]discounts){
+        
+        int total =0;
+        
+        for(int i=0;i<products.length;i++){
+            int minPrice = Integer.parseInt(products[i][0]);
+            
+            for(int j=1;j<products[0].length;j++)
+            {
+            int price =Integer.parseInt(products[i][0]);
+            int discount0 = getDiscount(products[i][j], discounts,price);
+            minPrice = Math.min(discount0, minPrice);
+             }
+        total+=minPrice;
+        }
+        return total;
+    }
+    
+    static int getDiscount(String discountType, String[][]discounts,int price){ // calculating discount for each type and discount type
+        int mine = price;
+        
+        for(int i=0;i<discounts.length;i++)
+        {
+          
+            
+             if (discounts[i][0].equals(discountType) && discounts[i][1].equals("0")){
+                 mine = Math.min(mine, Integer.parseInt(discounts[i][2]));
+             }
+            
+            else if(discounts[i][0].equals(discountType) && discounts[i][1].equals("1")){
+              
+                int dis= Integer.parseInt(discounts[i][2]);
+                 float disval = price - (price * (float) dis / 100);
+                 mine = Math.min(mine, (int)disval);
+            }
+            
+            else if(discounts[i][0].equals(discountType) && !discounts[i][1].equals("1"))
+            {
+       
+                int dis = Integer.parseInt(discounts[i][2]);
+                dis = price -dis;
+                mine = Math.min(mine, dis);
+            }
+        }
+        return mine;
+    }
+    
+    
+	public static void main (String[] args) {
+	
+	
+	String [][] products =  {
+	    {"10", "d0", "d1"},
+            {"15", "EMPTY", "EMPTY"},
+            {"20", "d1", "EMPTY"}
+	};
+	
+	String [][] discounts= {
+	     {"d0", "1", "27"},
+            {"d1", "2", "5"}
+	};
+	
+// ans : 35 
+	
+	
+// 	 String[][] products = {{"10", "sale", "january-sale"}, {"200", "sale", "EMPTY"}};
+//         String[][] discounts = {{"sale", "0", "10"}, {"january-sale", "1", "10"}};
+
+// ans : 19
+
+//  String[][] products = {{"100", "dcoupon1"}, {"50", "dcoupon1"},{"30", "dcoupon1"}, {"100", "dcoupon2"},{"50", "dcoupon2"}, {"30", "dcoupon2"} };
+//          String[][] discounts = {{"dcoupon1", "0", "60"}, {"dcoupon1", "1", "30"},{"dcoupon1", "1", "20"}, {"dcoupon2", "2", "20"},{"dcoupon2", "1", "85"}, {"dcoupon2", "0", "15"}};
+	
+// ans : 142 	
+	
+	int answer = calculateLowestProduct(products, discounts);
+	System.out.println("Lowest Price for product   "+answer);
+	
+	
+	}
+}
